@@ -1,0 +1,147 @@
+﻿@model RideShareWebServices.Models.Users
+
+@{
+    Layout = null;
+    string adminName = Convert.ToString(ViewBag.adminName);
+}
+
+
+<h2>AdminPage</h2>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/main.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <style>
+        .ResManage-Header {
+            min-height: 150px;
+            background-color: #BF2413;
+        }
+    </style>
+
+</head>
+<body>
+    <input type="hidden" id="rNametxt" value="@adminName" />
+    <script>
+        $(document).ready(function () {
+            var rn = $('#rNametxt').val();
+            if (rn == '' || rn == null) {
+                $('#resMngloginmodal').modal({ modal: 'show', backdrop: 'static', keyboard: false });
+            }
+            else {
+                $('#stdempregistermodal').modal({ modal: 'show', backdrop: 'static', keyboard: false });
+            }
+
+        });
+
+
+        //login ajax
+        $(function () {
+            $('#btnlogin').click(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: '/Admin/Login',
+                    data: {
+                        "Phone": $('#phonetxt').val()
+                    },
+
+                    datatype: "json",
+                    success: function (result) {
+                        if (result.link != null) {
+                            window.location.href = result.link;
+                        }
+                        else {
+                            $('#error-message').html(result.message);
+                        }
+
+                    }
+
+                });
+            });
+        });
+
+    </script>
+    <div class="container-fluid ResManage-Header">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-2">
+                    <div><img src="~/Content/redlogo.png" width="250" /></div>
+                </div>
+                <div class="col-sm-8"></div>
+                <div class="col-sm-2">
+                    @if (!string.IsNullOrEmpty(adminName))
+                    {
+                        <div class="dropdown" style="float:right; margin-top:25px;">
+                            <button class="btn btn-custom1 dropdown-toggle" type="button" data-toggle="dropdown">
+                                Welcome | @adminName
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Logout", "Logout", "Admin")</li>
+                            </ul>
+                        </div>
+                    }
+
+
+
+                    @* Admin Login Modal *@
+                    <div class="modal fade" id="resMngloginmodal" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4><span class="glyphicon glyphicon-lock"></span>Login</h4>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p id="error-message"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-body" id="loginform">
+                                    @* Login form will render here *@
+
+                                    @Html.Partial("~/Views/Shared/_LoginPartialView.cshtml")
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @* Student/Employee Id Register Modal *@
+                    <div class="modal fade" id="stdempregistermodal" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4><span class="glyphicon glyphicon-lock"></span>Register</h4>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p id="error-message"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-body" id="registerform">
+                                    @* form will render here *@
+
+                                    @Html.Partial("~/Views/Shared/_StdIdRegisterPartialView.cshtml")
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+</html>
+

@@ -1,0 +1,13 @@
+﻿@model RideShareWebServices.Models.Users
+
+<form role="form" method="post" action="@Url.Action("InsertStudentId", "Admin")">
+
+    @Html.ValidationSummary(true)
+    <div class="form-group">
+        @Html.LabelFor(m => m.Student_EmployeeId, "Student Id", new { @class = "glyphicon glyphicon-user" })
+        @Html.TextBoxFor(m => m.Student_EmployeeId, new { @class = "form-control", placeholder = "Enter Id" })
+        @Html.ValidationMessageFor(m => m.Student_EmployeeId, null, new { style = "color:red" })
+    </div>
+
+    <button type="submit" class="btn btn-custom1 btn-block"><span class="glyphicon glyphicon-off"></span> Submit</button>
+</form>

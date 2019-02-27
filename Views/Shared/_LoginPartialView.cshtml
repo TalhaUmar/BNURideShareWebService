@@ -1,0 +1,12 @@
+﻿@model RideShareWebServices.Models.LoginModel
+<form role="form" id="validateloginform">
+
+    <div class="form-group">
+        <label for="phone"><span class="glyphicon glyphicon-user"></span> Phone#</label>
+        @Html.TextBoxFor(m => m.Phone, new { id = "phonetxt", @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Phone, null, new { style = "color:red" })
+    </div>
+    
+
+    <button type="submit" id="btnlogin" class="btn btn-custom1 btn-block"><span class="glyphicon glyphicon-off"></span> Login</button>
+</form>
